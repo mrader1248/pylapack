@@ -14,11 +14,27 @@ if sys.version_info.major == 2:
 ##############################################
 
 import ctypes
+import logging
 import numpy as np
 
-def init(libpath="liblapack.so"):
-    global libblas
-    liblapack = ctypes.cdll.LoadLibrary(libpath)
+def init(libpath=None, ignore_mkl=False):
+
+    global liblapack
+
+    if libpath is None:
+        for libpath in ([] if ignore_mkl else ["libmkl_rt.so"]) + \
+                       ["liblapack.so"]:
+            try:
+                liblapack = ctypes.cdll.LoadLibrary(libpath)
+                logging.info("[pylapack.init] loaded \"{:s}\"".format(libpath))
+                break
+            except OSError:
+                liblapack = None
+
+        if liblapack is None:
+            raise OSError("could not load a suitable library")
+    else:
+        liblapack = ctypes.cdll.LoadLibrary(libpath)
 
     global _sgesvd
     _sgesvd = liblapack.sgesvd_
