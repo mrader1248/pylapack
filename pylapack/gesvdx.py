@@ -42,7 +42,7 @@ class GESVDX:
         m : int
             number of rows of matrix to decompose
         n : int
-            number of rows of matrix to decompose
+            number of columns of matrix to decompose
         compute_u : bool, optional
             whether to compute matrix u, default is True
         compute_v : bool, optional
@@ -112,7 +112,7 @@ class GESVDX:
             self.ldu = self.u.strides[1] // self.u.itemsize
             self.u_ptr = self.u.ctypes.data_as(ctypes.c_void_p)
         else:
-            self.ldu = 0
+            self.ldu = 0 # never referenced
             self.u_ptr = ctypes.c_void_p(0)
 
         if self.compute_v:
@@ -120,7 +120,7 @@ class GESVDX:
             self.ldv = self.v.strides[1] // self.v.itemsize
             self.v_ptr = self.v.ctypes.data_as(ctypes.c_void_p)
         else:
-            self.ldv = 0
+            self.ldv = 0 # never referenced
             self.v_ptr = ctypes.c_void_p(0)
 
         self.ns = ctypes.c_int()
@@ -182,8 +182,17 @@ class GESVDX:
         overwrite_a : bool, optional
             defines whether the matrix a can be overwritten; if False a working
             copy of the matrix a is created; default is True
+
         Returns
         ----
+        u : np.ndarray[shape=(m,min(m,n))]
+            isometric matrix containing left singular vectors as columns;
+            only returned if compute_u is True
+        s : np.ndarray[shape=(min(m,n),)]
+            singular values
+        v : np.ndarray[shape=(min(m,n),n)]
+            hermitian conjugate of isometric matrix containing right singular
+            vectors as rows; only returned if compute_v is True
         """
 
         if not overwrite_a:
