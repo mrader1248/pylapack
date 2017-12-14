@@ -97,8 +97,8 @@ class GESVDX:
             self.iu = ctypes.c_void_p(0)
         else:
             self.range = "i"
-            self.il = ctypes.byref(ctypes.c_int(svals[0]-1))
-            self.iu = ctypes.byref(ctypes.c_int(svals[1]-1))
+            self.il = ctypes.byref(ctypes.c_int(svals[0]+1))
+            self.iu = ctypes.byref(ctypes.c_int(svals[1]+1))
             self.maxns = svals[1] - svals[0] + 1
 
         self.range = ctypes.byref(ctypes.c_char(self.range))
