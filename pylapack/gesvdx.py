@@ -27,7 +27,7 @@ class GESVDX:
 
     # compute truncated rank-k SVD of an m x n matrix:
     a = np.random.rand(m, n).reshape(m, n, order="F")
-    svd = GESVDX(a.dtype, m, n, svals=(1, k))
+    svd = GESVDX(a.dtype, m, n, svals=(0, k-1))
     u,s,v = svd.run(a)
     """
 
