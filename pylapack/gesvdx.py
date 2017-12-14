@@ -54,7 +54,7 @@ class GESVDX:
             values and vectors are computed
         svals: (lo, hi), optional
             only compute singular values within the index range
-            0 <= lo <= hi <= min(m,n) where smaller indices correspond to
+            0 <= lo <= hi < min(m,n) where smaller indices correspond to
             larger singular values; only svals_interval or svals can be used;
             if neither svals_interval nor svals is defined all singular
             values and vectors are computed
