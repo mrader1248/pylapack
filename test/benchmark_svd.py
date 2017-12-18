@@ -72,7 +72,7 @@ plt.plot(n, t["gesdd"], "k--", label="gesdd")
 for l in range(len(k)):
     plt.plot(
         n, t["gesvdx"][l],
-        ["b-", "b--", "r-", "r--"][l]
+        ["b-", "b--", "r-", "r--"][l],
         label="gesvdx, $k={:d}$".format(k[l])
     )
 plt.xlabel("$n$")
