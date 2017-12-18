@@ -52,6 +52,20 @@ for j in range(len(n)):
         u,s,v = svd.run(a, False)
         t["gesvdx"][l].append(time() - t0)
 
+
+sys.stdout.write("n     gesvd    gesdd   ")
+for l in range(len(k)):
+    sys.stdout.write("gesvdx{:d}".format(k[l]))
+sys.stdout.write("\n")
+for j in range(len(n)):
+    sys.stdout.write("{:5d} {:8.3f} {:8.3f}".format(
+        t["gesvd"][j], t["gesdd"][j]))
+    for l in range(len(k)):
+        sys.stdout.write(" {:8.3f}".format(t["gesvdx"][l]))
+    sys.stdout.write("\n")
+
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 plt.plot(n, t["gesvd"], "k-", label="gesvd")
 plt.plot(n, t["gesdd"], "k--", label="gesdd")
@@ -67,4 +81,6 @@ plt.xscale("log", basex=2)
 plt.yscale("log")
 plt.legend(loc="best")
 plt.grid()
-plt.show()
+plt.savefig("benchmark_svd.pdf")
+plt.close()
+#plt.show()
