@@ -14,7 +14,6 @@ if sys.version_info.major == 2:
 ##############################################
 
 import os
-import sys
 sys.path.append(os.getcwd() + "/..")
 
 import numpy as np

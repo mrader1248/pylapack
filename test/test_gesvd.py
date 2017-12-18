@@ -14,11 +14,9 @@ if sys.version_info.major == 2:
 ##############################################
 
 import os
-import sys
 sys.path.append(os.getcwd() + "/..")
 
 import numpy as np
-import scipy.linalg as la
 from time import time
 
 import pylapack
