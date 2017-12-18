@@ -55,13 +55,13 @@ for j in range(len(n)):
 
 sys.stdout.write("n     gesvd    gesdd   ")
 for l in range(len(k)):
-    sys.stdout.write("gesvdx{:d}".format(k[l]))
+    sys.stdout.write(" gesvdx{:d}".format(k[l]))
 sys.stdout.write("\n")
 for j in range(len(n)):
     sys.stdout.write("{:5d} {:8.3f} {:8.3f}".format(
-        t["gesvd"][j], t["gesdd"][j]))
+        n[j], t["gesvd"][j], t["gesdd"][j]))
     for l in range(len(k)):
-        sys.stdout.write(" {:8.3f}".format(t["gesvdx"][l]))
+        sys.stdout.write(" {:10.3f}".format(t["gesvdx"][l]))
     sys.stdout.write("\n")
 
 import matplotlib
