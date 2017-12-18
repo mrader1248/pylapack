@@ -22,8 +22,8 @@ from time import time
 import pylapack
 pylapack.init()
 
-#n = np.asarray(np.logspace(10, 14, 5+4*2, base=2), int)
-n = np.asarray(np.logspace(10, 12, 3+2, base=2), int)
+n = np.asarray(np.logspace(10, 14, 5+4*2, base=2), int)
+#n = np.asarray(np.logspace(10, 12, 3+2, base=2), int)
 n -= (n % 16)
 k = [128,256,512,1024]
 dtype = np.complex128
@@ -55,7 +55,7 @@ for j in range(len(n)):
 
 sys.stdout.write("    n    gesvd    gesdd")
 for l in range(len(k)):
-    sys.stdout.write(" gesvdx{:d}".format(k[l]))
+    sys.stdout.write(" {:10s}".format("gesvdx{:d}".format(k[l])))
 sys.stdout.write("\n")
 for j in range(len(n)):
     sys.stdout.write("{:5d} {:8.3f} {:8.3f}".format(
