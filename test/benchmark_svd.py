@@ -22,15 +22,21 @@ from time import time
 import pylapack
 pylapack.init()
 
-n = np.asarray(np.logspace(10, 14, 5+4*2, base=2), int)
-#n = np.asarray(np.logspace(10, 12, 3+2, base=2), int)
+n = np.asarray(np.logspace(10, 13, 4+3*2, base=2), int)
 n -= (n % 16)
 k = [128,256,512,1024]
 dtype = np.complex128
 
 t = {"gesvd": [], "gesdd": [], "gesvdx": [[] for _ in range(len(k))]}
 
+sys.stdout.write("    n    gesvd    gesdd")
+for l in range(len(k)):
+    sys.stdout.write(" {:10s}".format("gesvdx{:d}".format(k[l])))
+
 for j in range(len(n)):
+
+    sys.stdout.write("{:5d}".format(n[j]))
+
     a = np.asarray(np.random.rand(n[j], n[j]), dtype)
     if np.iscomplexobj(a):
         a = a + 1j*np.asarray(np.random.rand(n[j], n[j]), dtype)
@@ -40,19 +46,24 @@ for j in range(len(n)):
     svd = pylapack.GESVD(dtype, n[j], n[j])
     u,s,v = svd.run(a, False)
     t["gesvd"].append(time() - t0)
+    sys.stdout.write(" {:8.3f}".format(t["gesvd"][j]))
 
     import scipy.linalg as la
     t0 = time()
     u,s,v = la.svd(a, lapack_driver="gesdd")
     t["gesdd"].append(time() - t0)
+    sys.stdout.write(" {:8.3f}".format(t["gesdd"][j]))
 
     for l in range(len(k)):
         t0 = time()
         svd = pylapack.GESVDX(dtype, n[j], n[j], svals=(0,k[l]-1))
         u,s,v = svd.run(a, False)
         t["gesvdx"][l].append(time() - t0)
+        sys.stdout.write(" {:10.3f}".format(t["gesvdx"][l][j]))
 
-
+    sys.stdout.write("\n")
+    sys.stdout.flush()
+"""
 sys.stdout.write("    n    gesvd    gesdd")
 for l in range(len(k)):
     sys.stdout.write(" {:10s}".format("gesvdx{:d}".format(k[l])))
@@ -63,6 +74,7 @@ for j in range(len(n)):
     for l in range(len(k)):
         sys.stdout.write(" {:10.3f}".format(t["gesvdx"][l][j]))
     sys.stdout.write("\n")
+"""
 
 import matplotlib
 matplotlib.use("Agg")
